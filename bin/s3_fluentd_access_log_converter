@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require 's3_fluentd_access_log_converter'
+
+S3FluentdAccessLogConverter::CLI.start
