@@ -25,7 +25,7 @@ Make config.yml
 
 And get logs
 
-    $ bundle exec bin/s3_fluentd_access_log_converter get config.yml
+    $ s3_fluentd_access_log_converter get config.yml
 
 ## Contributing
 
