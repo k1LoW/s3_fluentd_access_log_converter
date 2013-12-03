@@ -1,4 +1,4 @@
-Copyright (c) 2013 k1LoW
+Copyright (c) 2013 k1LoW, ya_ma23
 
 MIT License
 

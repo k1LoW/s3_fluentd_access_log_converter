@@ -6,7 +6,7 @@ require 's3_fluentd_access_log_converter/version'
 Gem::Specification.new do |spec|
   spec.name          = "s3_fluentd_access_log_converter"
   spec.version       = S3FluentdAccessLogConverter::VERSION
-  spec.authors       = ["k1LoW"]
+  spec.authors       = ["k1LoW", "ya_ma23"]
   spec.email         = ["k1lowxb@gmail.com"]
   spec.description   = %q{Get S3 'fluentd formatted access_log' and convert to combined access_log}
   spec.summary       = %q{Get S3 'fluentd formatted access_log' and convert to combined access_log}
