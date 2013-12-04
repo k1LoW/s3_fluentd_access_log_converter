@@ -4,20 +4,22 @@ require 'aws-sdk'
 require 'json'
 require 'zlib'
 require 'date'
+require 'pp'
 
 module S3FluentdAccessLogConverter
   class CLI < Thor
+
     desc "get [config.yml]", "Get S3 'fluentd formatted access_log' and convert to combined access_log"
     def get(yml)
-      @config = YAML.load_file(yml)
-      s3 = AWS::S3.new(
-                       :access_key_id => @config['aws_access_key_id'],
-                       :secret_access_key => @config['aws_secret_access_key'])
-      bucket = s3.buckets[@config['s3_bucket']]
       print "Get S3 logs and convert"
+      self.load(yml)
+
       Dir::mkdir(@config['log_tmp_dir']) unless Dir::exists?(@config['log_tmp_dir'])
-      bucket.objects.with_prefix(@config['s3_object_prefix']).each do |object|
-        unless object.key =~ /#{@config['s3_object_key_regexp']}/
+      key_regexp = @config['s3_object_key_regexp']
+      key_regexp.slice!(0).slice!(-1)
+      key_regexp.slice!(-1)
+      @bucket.objects.with_prefix(@config['s3_object_prefix']).each do |object|
+        unless object.key =~ /#{key_regexp}/
           next
         end
 
@@ -54,6 +56,30 @@ module S3FluentdAccessLogConverter
         fp.close
       end
       puts "."
+    end
+
+    desc "ls [config.yml]", "Get S3 'fluentd formatted access_log' list"
+    def ls(yml)
+      self.load(yml)
+      list = nil.to_a
+      key_regexp = @config['s3_object_key_regexp']
+      key_regexp.slice!(0).slice!(-1)
+      key_regexp.slice!(-1)
+      @bucket.objects.with_prefix(@config['s3_object_prefix']).each do |object|
+        unless object.key =~ /#{key_regexp}/
+          next
+        end
+        puts object.key
+      end
+    end
+
+    protected
+    def load(yml)
+      @config = YAML.load_file(yml)
+      s3 = AWS::S3.new(
+                       :access_key_id => @config['aws_access_key_id'],
+                       :secret_access_key => @config['aws_secret_access_key'])
+      @bucket = s3.buckets[@config['s3_bucket']]
     end
   end
 end

@@ -20,7 +20,7 @@ Make config.yml
     aws_secret_access_key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     s3_bucket: my-site-logs
     s3_object_prefix: httpd/
-    s3_object_key_regexp: 2013\/12\/[0-9]{2}\/access_log
+    s3_object_key_regexp: /2013\/12\/[0-9]{2}\/access_log/
     log_tmp_dir: /tmp/
 
 And get logs
