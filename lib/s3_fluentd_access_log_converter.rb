@@ -1,3 +1,4 @@
+# encoding: utf-8
 require "s3_fluentd_access_log_converter/version"
 require "thor"
 require 'aws-sdk'
@@ -36,7 +37,7 @@ module S3FluentdAccessLogConverter
           begin
             while l = gz.readline
               begin
-                line = l.split(' ')
+                line = l.encode("UTF-16BE", "UTF-8", :invalid => :replace, :undef => :replace, :replace => '?').encode("UTF-8").split(' ')
                 timestr = line[0]
                 ipstr = line[1]
                 time = DateTime.parse(timestr)
